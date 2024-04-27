@@ -136,13 +136,10 @@ export const uploadDishImage = (idDish, image) => {
 export const searchDishes = (dishName) => {
     return async (dispatch) => {
         try {
-            const response = await fetch(`https://localhost:7275/api/Dishes/search/${dishName}`);
-            if (!response.ok) {
-                throw new Error("Error fetching data from server!");
-            }
-            const data = await response.json();
-            console.log(data);
-            dispatch(searchDishAction(data));
+            const responseData = await fetchWithAuth(`https://localhost:7275/api/Dishes/search/${dishName}`);
+
+            console.log(responseData);
+            dispatch(searchDishAction(responseData));
         } catch (error) {
             console.log(error);
         }

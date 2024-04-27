@@ -300,11 +300,22 @@ namespace CozyToGo.Controllers
             return Ok(dishResponse);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet("search/{dishName}")]
         public async Task<IActionResult> GetDishesByName(string dishName)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            if (role != "Owner")
+            {
+                return Unauthorized();
+            }
             var dishes = await _context.Dishes
-                .Where(d => d.Name.Contains(dishName.ToLower()))
+                .Where(d => d.Name.Contains(dishName.ToLower()) && d.Restaurant.IdOwner == Convert.ToInt32(userId))
                 .Include(d => d.DishIngredients)
                 .ThenInclude(di => di.Ingredient)
                 .Select(d => new DishDTO
@@ -330,5 +341,6 @@ namespace CozyToGo.Controllers
             }
             return Ok(dishes);
         }
+
     }
 }

@@ -1,6 +1,6 @@
 import { Col, Row } from "react-bootstrap";
 import ModalComponent from "../Shared/ModalComponent";
-import { useEffect, useRef, useState } from "react";
+import { StrictMode, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Plus } from "react-bootstrap-icons";
 import {
@@ -14,7 +14,6 @@ import {
 import AddDishModal from "./AddDishModal";
 import Euro from "../../assets/imgs/Euro.png";
 import FotoCibo from "../../assets/imgs/FotoCibo.avif";
-import { set } from "react-hook-form";
 
 const Dishes = () => {
     const restaurant = useSelector((state) => state.restaurants.restaurant);
@@ -25,6 +24,8 @@ const Dishes = () => {
     const [search, setSearch] = useState("");
     const [name, setName] = useState("");
     const [editingDishId, setDishAddressId] = useState(null);
+    const [currentDishId, setCurrentDishId] = useState(null);
+    const [isHovered, setIsHovered] = useState({});
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
     const [ingredientsToAdd, setIngredientsToAdd] = useState([]);
@@ -48,16 +49,18 @@ const Dishes = () => {
         console.log(dish.name, dish.price);
     };
 
-    const handleImageClick = () => {
+    const handleImageClick = (idDish) => {
+        setCurrentDishId(idDish);
         fileInput.current.click();
     };
 
-    const handleImageChange = async (e, idDish) => {
+    const handleImageChange = async (e) => {
         if (e.target.files.length > 0) {
             const file = e.target.files[0];
-            await dispatch(uploadDishImage(idDish, file));
+            await dispatch(uploadDishImage(currentDishId, file));
             await dispatch(getRestaurantDishes(restaurant.idRestaurant));
         }
+        console.log("Id del piatto: ", currentDishId);
     };
 
     const handleSearchIngredients = (e) => {
@@ -91,14 +94,12 @@ const Dishes = () => {
             dispatch(getRestaurantDishes(restaurant.idRestaurant));
         }
     }, [search]);
-    const handleMouseOver = (e) => {
-        e.currentTarget.querySelector(".EditDishImg").style.opacity = "1";
-        e.currentTarget.querySelector(".dishImageContainerID img").style.opacity = "0.8";
+    const handleMouseOver = (id) => {
+        setIsHovered((prevState) => ({ ...prevState, [id]: true }));
     };
 
-    const handleMouseOut = (e) => {
-        e.currentTarget.querySelector(".EditDishImg").style.opacity = "0";
-        e.currentTarget.querySelector(".dishImageContainerID img").style.opacity = "1";
+    const handleMouseOut = (id) => {
+        setIsHovered((prevState) => ({ ...prevState, [id]: false }));
     };
     return (
         <>
@@ -142,72 +143,87 @@ const Dishes = () => {
                     />
                 </ModalComponent>
             </Row>
-            <Row className="pt-5 gy-5">
-                {dishes &&
-                    dishes.map((dish) => {
-                        return (
-                            <Col key={dish.idDish} xs={12} xxl={6}>
-                                <div className="card border-lightViolet overflow-hidden">
-                                    <div
-                                        className="dishImgContainerID dishImageContainer position-relative "
-                                        onMouseOver={handleMouseOver}
-                                        onMouseOut={handleMouseOut}
-                                    >
-                                        <input
-                                            type="file"
-                                            style={{ display: "none" }}
-                                            ref={fileInput}
-                                            onChange={(e) => handleImageChange(e, dish.idDish)}
-                                        />
-                                        <img
-                                            className="dish-image"
-                                            src={
-                                                dish.image != "default.jpg"
-                                                    ? `https://localhost:7275/images/${dish.image}`
-                                                    : FotoCibo
-                                            }
-                                            alt={dish.name}
-                                            onClick={handleImageClick}
-                                        />
-                                        <p className="EditDishImg mb-0 h5">Modifica</p>
-                                    </div>
-                                    <div className="card-body d-flex flex-column justify-content-between">
-                                        <div className="border-bottom-dashed pb-5">
-                                            <h5 className="card-title fw-bold mb-2">{dish.name}</h5>
-                                            {dish.ingredients.map((ingredient) => (
-                                                <span className="me-2 text-italic fs-6" key={ingredient.idIngredient}>
-                                                    {ingredient.name}
-                                                </span>
-                                            ))}
-                                        </div>
+            <StrictMode>
+                <Row className="pt-5 gy-5">
+                    {dishes &&
+                        dishes.map((dish) => {
+                            return (
+                                <Col key={dish.idDish} xs={12} xxl={6}>
+                                    <div className="card border-lightViolet overflow-hidden">
+                                        <div
+                                            className={`dishImgContainerID dishImageContainer position-relative bg-dark ${
+                                                isHovered[dish.idDish] ? "hovered" : ""
+                                            }`}
+                                            onMouseOver={() => handleMouseOver(dish.idDish)}
+                                            onMouseOut={() => handleMouseOut(dish.idDish)}
+                                        >
+                                            <input
+                                                type="file"
+                                                style={{ display: "none" }}
+                                                ref={fileInput}
+                                                onChange={handleImageChange}
+                                            />
 
-                                        <div className="d-flex align-items-center justify-content-between">
-                                            <p className="card-text mb-0 d-flex align-items-center flex-grow-1 ">
-                                                <img src={Euro} style={{ width: 14 }} />{" "}
-                                                <span className="ms-1">{dish.price}</span>
+                                            <img
+                                                className={`dish-image ${isHovered[dish.idDish] ? "dimmed" : ""}`}
+                                                src={
+                                                    dish.image != "default.jpg"
+                                                        ? `https://localhost:7275/images/${dish.image}`
+                                                        : FotoCibo
+                                                }
+                                                alt={dish.name}
+                                                onClick={() => handleImageClick(dish.idDish)}
+                                            />
+
+                                            <p
+                                                className={`EditDishImg mb-0 h5 ${
+                                                    isHovered[dish.idDish] ? "visible" : ""
+                                                }`}
+                                            >
+                                                Modifica
                                             </p>
+                                        </div>
+                                        <div className="card-body d-flex flex-column justify-content-between">
+                                            <div className="border-bottom-dashed pb-5">
+                                                <h5 className="card-title fw-bold mb-2">{dish.name}</h5>
+                                                {dish.ingredients.map((ingredient) => (
+                                                    <span
+                                                        className="me-2 text-italic fs-6"
+                                                        key={ingredient.idIngredient}
+                                                    >
+                                                        {ingredient.name}
+                                                    </span>
+                                                ))}
+                                            </div>
 
-                                            <div>
-                                                <button
-                                                    className="btn-form btn-violet py-1 px-2 me-2"
-                                                    onClick={() => handleToggleDishAvailability(dish.idDish)}
-                                                >
-                                                    {dish.isAvailable ? "Disattiva" : "Attiva"}
-                                                </button>
-                                                <button
-                                                    onClick={() => handleShowEditModal(dish)}
-                                                    className="btn-form btn-green py-1 px-2"
-                                                >
-                                                    Modifica
-                                                </button>
+                                            <div className="d-flex align-items-center justify-content-between">
+                                                <p className="card-text mb-0 d-flex align-items-center flex-grow-1 ">
+                                                    <img src={Euro} style={{ width: 14 }} />{" "}
+                                                    <span className="ms-1">{dish.price}</span>
+                                                </p>
+
+                                                <div>
+                                                    <button
+                                                        className="btn-form btn-violet py-1 px-2 me-2"
+                                                        onClick={() => handleToggleDishAvailability(dish.idDish)}
+                                                    >
+                                                        {dish.isAvailable ? "Disattiva" : "Attiva"}
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleShowEditModal(dish)}
+                                                        className="btn-form btn-green py-1 px-2"
+                                                    >
+                                                        Modifica
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Col>
-                        );
-                    })}
-            </Row>
+                                </Col>
+                            );
+                        })}
+                </Row>
+            </StrictMode>
         </>
     );
 };

@@ -626,3 +626,11 @@ input[type="range"]:focus::-moz-range-thumb {
     transform: translateX(100%);
     transition: transform 300ms;
 } */
+
+.dish-image.dimmed {
+    opacity: 0.8;
+}
+
+.EditDishImg.visible {
+    opacity: 1;
+}

@@ -109,203 +109,186 @@ const Account = () => {
     };
     return (
         <>
-            <TransitionGroup>
-                {owner && restaurant && owner.role === "Owner" ? (
-                    <>
-                        {console.log(owner)}
-                        <Row className="justify-content-center justify-content-xxl-start">
-                            <Col md={12} xxl={4} className="p-0 ">
-                                <h4 className="bg-violet border-message text-white text-center py-2 px-3 fs-5 text-playfair ">
-                                    Il mio ristorante
-                                </h4>
-                            </Col>
-                        </Row>
-                        <Row xs={12} xxl={8} key={restaurant.idRestaurant} className=" align-items-center gx-5 py-5">
-                            <Col
-                                xs={{ span: 12 }}
-                                xxl={{ span: 6, order: 1 }}
-                                className="d-flex justify-content-center align-items-center mt-sm-5 mt-lg-0 p-0"
+            {owner && restaurant && owner.role === "Owner" ? (
+                <>
+                    {console.log(owner)}
+                    <Row className="justify-content-center justify-content-xxl-start">
+                        <Col md={12} xxl={4} className="p-0 ">
+                            <h4 className="bg-violet border-message text-white text-center py-2 px-3 fs-5 text-playfair ">
+                                Il mio ristorante
+                            </h4>
+                        </Col>
+                    </Row>
+                    <Row xs={12} xxl={8} key={restaurant.idRestaurant} className=" align-items-center gx-5 py-5">
+                        <Col
+                            xs={{ span: 12 }}
+                            xxl={{ span: 6, order: 1 }}
+                            className="d-flex justify-content-center align-items-center mt-sm-5 mt-lg-0 p-0"
+                        >
+                            <div
+                                id="restaurantImgContainerID"
+                                className="restaurantImgContainer position-relative bg-dark"
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}
                             >
-                                <div
-                                    id="restaurantImgContainerID"
-                                    className="restaurantImgContainer position-relative bg-dark"
-                                    onMouseOver={handleMouseOver}
-                                    onMouseOut={handleMouseOut}
-                                >
-                                    <input
-                                        type="file"
-                                        style={{ display: "none" }}
-                                        ref={fileInput}
-                                        onChange={handleImageChange}
-                                    />
-                                    <img
-                                        src={
-                                            restaurant.image !== "default.jpg"
-                                                ? `https://localhost:7275/images/${restaurant.image}`
-                                                : defaultimage
-                                        }
-                                        alt="default"
-                                        className="img-fluid RestaurantImgs"
-                                        onClick={handleImageClick}
-                                    />
-                                    <p id="EditImg" className="mb-0 h5">
-                                        Modifica
-                                    </p>
-                                </div>
-                            </Col>
-                            <Col xs={{ span: 12 }} xxl={{ span: 4, order: 2 }} className="flex-grow-1">
-                                <Row>
-                                    <Col xs={12}>
-                                        <div className="px-0 pt-3 px-sm-4 pt-sm-4 px-md-0 pt-md-3 px-lg-3  pt-lg-3 px-xl-5 pt-xl-4 px-xxl-0">
-                                            <div className="RestaurantLink">
-                                                <h4 className="text-black fw-bold fs-4 mb-0 text-hover-violet ">
-                                                    {restaurant.name}
-                                                </h4>
-                                            </div>
-                                            <p className="text-black text-italic fs-7">{restaurant.category}</p>
-                                            <p className="  text-black fw-semibold fs-7">{restaurant.description}</p>
-                                            <div className="d-flex align-items-center">
-                                                <ClockFill className="text-violet" />
-                                                <span className="ms-2">
-                                                    {restaurant.openingHours.split(":").slice(0, 2).join(":")} -{" "}
-                                                    {restaurant.closingHours.split(":").slice(0, 2).join(":")}
-                                                </span>
-                                            </div>
-                                            <div className="d-flex align-items-center mt-1">
-                                                <PhoneFill className="text-violet" />
-                                                <span className="ms-2">{restaurant.phone}</span>
-                                            </div>
-                                            <div className="d-flex align-items-center mt-1">
-                                                <EnvelopeFill className="text-violet" />
-                                                <span className="ms-2">{restaurant.email}</span>
-                                            </div>
-                                            <p className="mb-0 fw-semibold mt-1">DayOff: {restaurant.closingDay}</p>
-                                            <div className="text-end">
-                                                <button
-                                                    onClick={() => setShowModal(true)}
-                                                    className="btn-form btn-green px-2 py-1"
-                                                >
-                                                    Modifica
-                                                </button>
-                                            </div>
+                                <input
+                                    type="file"
+                                    style={{ display: "none" }}
+                                    ref={fileInput}
+                                    onChange={handleImageChange}
+                                />
+                                <img
+                                    src={
+                                        restaurant.image !== "default.jpg"
+                                            ? `https://localhost:7275/images/${restaurant.image}`
+                                            : defaultimage
+                                    }
+                                    alt="default"
+                                    className="img-fluid RestaurantImgs"
+                                    onClick={handleImageClick}
+                                />
+                                <p id="EditImg" className="mb-0 h5">
+                                    Modifica
+                                </p>
+                            </div>
+                        </Col>
+                        <Col xs={{ span: 12 }} xxl={{ span: 4, order: 2 }} className="flex-grow-1">
+                            <Row>
+                                <Col xs={12}>
+                                    <div className="px-0 pt-3 px-sm-4 pt-sm-4 px-md-0 pt-md-3 px-lg-3  pt-lg-3 px-xl-5 pt-xl-4 px-xxl-0">
+                                        <div className="RestaurantLink">
+                                            <h4 className="text-black fw-bold fs-4 mb-0 text-hover-violet ">
+                                                {restaurant.name}
+                                            </h4>
                                         </div>
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
-                        <ModalComponent
-                            show={showModal}
-                            handleClose={() => setShowModal(false)}
-                            handleSubmit={handleSubmit}
-                        >
-                            <EditRestaurantModal
-                                restaurantName={restaurantName}
-                                setRestaurantName={setRestaurantName}
-                                category={category}
-                                setCategory={setCategory}
-                                description={description}
-                                setDescription={setDescription}
-                                openingHours={openingHours}
-                                setOpeningHours={setOpeningHours}
-                                closingHours={closingHours}
-                                setClosingHours={setClosingHours}
-                                closingDay={closingDay}
-                                setClosingDay={setClosingDay}
-                                restaurantPhone={restaurantPhone}
-                                setRestaurantPhone={setRestaurantPhone}
-                                restaurantEmail={restaurantEmail}
-                                setRestaurantEmail={setRestaurantEmail}
-                            />
-                        </ModalComponent>
-                    </>
-                ) : user && user.name && user.surname && user.email && user.phone && user.address ? (
-                    <>
-                        <Row className="mb-5">
-                            <Col md={8} lg={6} xl={5} xxl={4}>
-                                <h4 className="bg-violet border-message text-white text-center py-2 px-3 fs-5 text-playfair ">
-                                    Il mio account
-                                </h4>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={12}>
-                                <Row>
-                                    <Col xs={12} lg={6}>
-                                        <p className="text-black  fs-6 mb-2 ps-2">Nome</p>
-                                        <FormControl
-                                            className="cozy-input-form"
-                                            type="text"
-                                            value={user.name}
-                                            readOnly
-                                        />
-                                    </Col>
-                                    <Col xs={12} lg={6}>
-                                        <p className="text-black  fs-6 mb-2 ps-2">Cognome</p>
-                                        <FormControl
-                                            className="cozy-input-form"
-                                            type="text"
-                                            value={user.surname}
-                                            readOnly
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={12} lg={6}>
-                                        <p className="text-black  fs-6 mb-2 ps-2">Email</p>
-                                        <FormControl
-                                            className="cozy-input-form"
-                                            type="email"
-                                            value={user.email}
-                                            readOnly
-                                        />
-                                    </Col>
-                                    <Col xs={12} lg={6}>
-                                        <p className="text-black  fs-6 mb-2 ps-2">Cellulare</p>
-                                        <FormControl
-                                            className="cozy-input-form"
-                                            type="tel"
-                                            value={user.phone}
-                                            readOnly
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={12}>
-                                        <p className="text-black  fs-6 mb-2 ps-2">Indirizzo</p>
-                                        <FormControl
-                                            className="cozy-input-form"
-                                            type="text"
-                                            value={user.address}
-                                            readOnly
-                                        />
-                                    </Col>
-                                </Row>
+                                        <p className="text-black text-italic fs-7">{restaurant.category}</p>
+                                        <p className="  text-black fw-semibold fs-7">{restaurant.description}</p>
+                                        <div className="d-flex align-items-center">
+                                            <ClockFill className="text-violet" />
+                                            <span className="ms-2">
+                                                {restaurant.openingHours.split(":").slice(0, 2).join(":")} -{" "}
+                                                {restaurant.closingHours.split(":").slice(0, 2).join(":")}
+                                            </span>
+                                        </div>
+                                        <div className="d-flex align-items-center mt-1">
+                                            <PhoneFill className="text-violet" />
+                                            <span className="ms-2">{restaurant.phone}</span>
+                                        </div>
+                                        <div className="d-flex align-items-center mt-1">
+                                            <EnvelopeFill className="text-violet" />
+                                            <span className="ms-2">{restaurant.email}</span>
+                                        </div>
+                                        <p className="mb-0 fw-semibold mt-1">DayOff: {restaurant.closingDay}</p>
+                                        <div className="text-end">
+                                            <button
+                                                onClick={() => setShowModal(true)}
+                                                className="btn-form btn-green px-2 py-1"
+                                            >
+                                                Modifica
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <ModalComponent
+                        show={showModal}
+                        handleClose={() => setShowModal(false)}
+                        handleSubmit={handleSubmit}
+                    >
+                        <EditRestaurantModal
+                            restaurantName={restaurantName}
+                            setRestaurantName={setRestaurantName}
+                            category={category}
+                            setCategory={setCategory}
+                            description={description}
+                            setDescription={setDescription}
+                            openingHours={openingHours}
+                            setOpeningHours={setOpeningHours}
+                            closingHours={closingHours}
+                            setClosingHours={setClosingHours}
+                            closingDay={closingDay}
+                            setClosingDay={setClosingDay}
+                            restaurantPhone={restaurantPhone}
+                            setRestaurantPhone={setRestaurantPhone}
+                            restaurantEmail={restaurantEmail}
+                            setRestaurantEmail={setRestaurantEmail}
+                        />
+                    </ModalComponent>
+                </>
+            ) : user && user.name && user.surname && user.email && user.phone && user.address ? (
+                <>
+                    <Row className="mb-5">
+                        <Col md={8} lg={6} xl={5} xxl={4}>
+                            <h4 className="bg-violet border-message text-white text-center py-2 px-3 fs-5 text-playfair ">
+                                Il mio account
+                            </h4>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    <p className="text-black  fs-6 mb-2 ps-2">Nome</p>
+                                    <FormControl className="cozy-input-form" type="text" value={user.name} readOnly />
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    <p className="text-black  fs-6 mb-2 ps-2">Cognome</p>
+                                    <FormControl
+                                        className="cozy-input-form"
+                                        type="text"
+                                        value={user.surname}
+                                        readOnly
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    <p className="text-black  fs-6 mb-2 ps-2">Email</p>
+                                    <FormControl className="cozy-input-form" type="email" value={user.email} readOnly />
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    <p className="text-black  fs-6 mb-2 ps-2">Cellulare</p>
+                                    <FormControl className="cozy-input-form" type="tel" value={user.phone} readOnly />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12}>
+                                    <p className="text-black  fs-6 mb-2 ps-2">Indirizzo</p>
+                                    <FormControl
+                                        className="cozy-input-form"
+                                        type="text"
+                                        value={user.address}
+                                        readOnly
+                                    />
+                                </Col>
+                            </Row>
 
-                                <div className="d-flex justify-content-center justify-content-lg-end mt-4 ">
-                                    <button className="btn-form btn-violet" onClick={() => setShowModal(true)}>
-                                        Modifica
-                                    </button>
-                                </div>
-                            </Col>
-                        </Row>
-                        <ModalComponent
-                            show={showModal}
-                            handleClose={() => setShowModal(false)}
+                            <div className="d-flex justify-content-center justify-content-lg-end mt-4 ">
+                                <button className="btn-form btn-violet" onClick={() => setShowModal(true)}>
+                                    Modifica
+                                </button>
+                            </div>
+                        </Col>
+                    </Row>
+                    <ModalComponent
+                        show={showModal}
+                        handleClose={() => setShowModal(false)}
+                        handleSubmit={handleSubmit}
+                    >
+                        <EditEmailAndPasswordModal
                             handleSubmit={handleSubmit}
-                        >
-                            <EditEmailAndPasswordModal
-                                handleSubmit={handleSubmit}
-                                email={email}
-                                setEmail={setEmail}
-                                phone={phone}
-                                setPhone={setPhone}
-                            />
-                        </ModalComponent>
-                    </>
-                ) : (
-                    <h1>loading...</h1>
-                )}
-            </TransitionGroup>
+                            email={email}
+                            setEmail={setEmail}
+                            phone={phone}
+                            setPhone={setPhone}
+                        />
+                    </ModalComponent>
+                </>
+            ) : (
+                <h1>loading...</h1>
+            )}
         </>
     );
 };
