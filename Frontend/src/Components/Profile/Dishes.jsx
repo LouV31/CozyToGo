@@ -146,82 +146,94 @@ const Dishes = () => {
             <StrictMode>
                 <Row className="pt-5 gy-5">
                     {dishes &&
-                        dishes.map((dish) => {
-                            return (
-                                <Col key={dish.idDish} xs={12} xxl={6}>
-                                    <div className="card border-lightViolet overflow-hidden">
-                                        <div
-                                            className={`dishImgContainerID dishImageContainer position-relative bg-dark ${
-                                                isHovered[dish.idDish] ? "hovered" : ""
-                                            }`}
-                                            onMouseOver={() => handleMouseOver(dish.idDish)}
-                                            onMouseOut={() => handleMouseOut(dish.idDish)}
-                                        >
-                                            <input
-                                                type="file"
-                                                style={{ display: "none" }}
-                                                ref={fileInput}
-                                                onChange={handleImageChange}
-                                            />
+                        [...dishes] // create a copy of the array to avoid mutating the original array
+                            .sort((a, b) => {
+                                // Step 2
+                                if (a.isAvailable !== b.isAvailable) {
+                                    return b.isAvailable - a.isAvailable;
+                                }
 
-                                            <img
-                                                className={`dish-image ${isHovered[dish.idDish] ? "dimmed" : ""}`}
-                                                src={
-                                                    dish.image != "default.jpg"
-                                                        ? `https://localhost:7275/images/${dish.image}`
-                                                        : FotoCibo
-                                                }
-                                                alt={dish.name}
-                                                onClick={() => handleImageClick(dish.idDish)}
-                                            />
-
-                                            <p
-                                                className={`EditDishImg mb-0 h5 ${
-                                                    isHovered[dish.idDish] ? "visible" : ""
+                                // Step 3
+                                return a.name.localeCompare(b.name);
+                            })
+                            .map((dish) => {
+                                return (
+                                    <Col key={dish.idDish} xs={12} xxl={6}>
+                                        <div className="card border-lightViolet overflow-hidden">
+                                            <div
+                                                className={`dishImgContainerID dishImageContainer position-relative bg-dark ${
+                                                    isHovered[dish.idDish] ? "hovered" : ""
                                                 }`}
+                                                onMouseOver={() => handleMouseOver(dish.idDish)}
+                                                onMouseOut={() => handleMouseOut(dish.idDish)}
                                             >
-                                                Modifica
-                                            </p>
-                                        </div>
-                                        <div className="card-body d-flex flex-column justify-content-between">
-                                            <div className="border-bottom-dashed pb-5">
-                                                <h5 className="card-title fw-bold mb-2">{dish.name}</h5>
-                                                {dish.ingredients.map((ingredient) => (
-                                                    <span
-                                                        className="me-2 text-italic fs-6"
-                                                        key={ingredient.idIngredient}
-                                                    >
-                                                        {ingredient.name}
-                                                    </span>
-                                                ))}
-                                            </div>
+                                                <input
+                                                    type="file"
+                                                    style={{ display: "none" }}
+                                                    ref={fileInput}
+                                                    onChange={handleImageChange}
+                                                />
 
-                                            <div className="d-flex align-items-center justify-content-between">
-                                                <p className="card-text mb-0 d-flex align-items-center flex-grow-1 ">
-                                                    <img src={Euro} style={{ width: 14 }} />{" "}
-                                                    <span className="ms-1">{dish.price}</span>
+                                                <img
+                                                    className={`dish-image ${isHovered[dish.idDish] ? "dimmed" : ""}`}
+                                                    src={
+                                                        dish.image != "default.jpg"
+                                                            ? `https://localhost:7275/images/${dish.image}`
+                                                            : FotoCibo
+                                                    }
+                                                    alt={dish.name}
+                                                    onClick={() => handleImageClick(dish.idDish)}
+                                                />
+
+                                                <p
+                                                    className={`EditDishImg mb-0 h5 ${
+                                                        isHovered[dish.idDish] ? "visible" : ""
+                                                    }`}
+                                                >
+                                                    Modifica
                                                 </p>
+                                            </div>
+                                            <div className="card-body d-flex flex-column justify-content-between">
+                                                <div className="border-bottom-dashed pb-4">
+                                                    <h5 className="card-title fw-bold mb-2">{dish.name}</h5>
+                                                    <div className="ingredientDishContainer">
+                                                        {dish.ingredients.map((ingredient) => (
+                                                            <span
+                                                                className="me-2 text-italic fs-6"
+                                                                key={ingredient.idIngredient}
+                                                            >
+                                                                {ingredient.name},
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
 
-                                                <div>
-                                                    <button
-                                                        className="btn-form btn-violet py-1 px-2 me-2"
-                                                        onClick={() => handleToggleDishAvailability(dish.idDish)}
-                                                    >
-                                                        {dish.isAvailable ? "Disattiva" : "Attiva"}
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleShowEditModal(dish)}
-                                                        className="btn-form btn-green py-1 px-2"
-                                                    >
-                                                        Modifica
-                                                    </button>
+                                                <div className="d-flex align-items-center justify-content-between">
+                                                    <p className="card-text mb-0 d-flex align-items-center flex-grow-1 ">
+                                                        <img src={Euro} style={{ width: 14 }} />{" "}
+                                                        <span className="ms-1">{dish.price}</span>
+                                                    </p>
+
+                                                    <div>
+                                                        <button
+                                                            className="btn-form btn-violet py-1 px-2 me-2"
+                                                            onClick={() => handleToggleDishAvailability(dish.idDish)}
+                                                        >
+                                                            {dish.isAvailable ? "Disattiva" : "Attiva"}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleShowEditModal(dish)}
+                                                            className="btn-form btn-green py-1 px-2"
+                                                        >
+                                                            Modifica
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Col>
-                            );
-                        })}
+                                    </Col>
+                                );
+                            })}
                 </Row>
             </StrictMode>
         </>

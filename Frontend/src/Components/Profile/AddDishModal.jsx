@@ -37,11 +37,12 @@ const AddDishModal = (props) => {
                     />
                 </Form.Group>
             </div>
-            <Form.Group>
+            <Form.Group className="IngredientListToAddContainer">
                 <Form.Label className="text-playfair text-italic fw-semibold fs-6">Ingredienti</Form.Label>
                 {ingredients &&
                     ingredients.map((ingredient) => (
                         <Form.Check
+                            className="text-italic text-violet fw-semibold myCheckbox"
                             key={ingredient.idIngredient}
                             type="checkbox"
                             label={ingredient.name}
@@ -62,7 +63,7 @@ const AddDishModal = (props) => {
                     ))}
             </Form.Group>
             {!props.isEditMode && (
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput16">
+                <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlInput16">
                     <Form.Label className="text-playfair text-italic fw-semibold fs-6">Immagine</Form.Label>
                     <Form.Control
                         required

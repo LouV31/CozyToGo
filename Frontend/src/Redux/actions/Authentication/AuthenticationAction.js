@@ -74,6 +74,9 @@ export const loginUser = (Email, Password, navigate) => {
     };
 };
 
-export const logoutUser = () => ({
-    type: LOGOUT_USER,
-});
+export const logoutUser = () => {
+    toast.success("Logout effettuata con successo");
+    return {
+        type: LOGOUT_USER,
+    };
+};

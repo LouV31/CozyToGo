@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantDishes } from "../../Redux/actions/Restaurant/Dishes/DishesAction";
+import { getRestaurantDishes, searchDishesByRestaurant } from "../../Redux/actions/Restaurant/Dishes/DishesAction";
 import { useNavigate, useParams } from "react-router-dom";
 import { addItemAction } from "../../Redux/reducers/CartReducers";
 import TopVioletSvg from "../Shared/TopVioletSvg";
@@ -28,6 +28,7 @@ const Restaurant = () => {
     );
     const { restaurantId } = useParams();
     const restaurantIdInt = parseInt(restaurantId);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         if (restaurant && !isOpen(restaurant)) {
@@ -72,6 +73,16 @@ const Restaurant = () => {
         setQuantities(updatedQuantities);
     };
 
+    const handleSearchIngredients = (e) => {
+        setSearch(e.target.value);
+    };
+    useEffect(() => {
+        if (search.trim() !== "") {
+            dispatch(searchDishesByRestaurant(restaurantIdInt, search));
+        } else {
+            dispatch(getRestaurantDishes(restaurantId));
+        }
+    }, [search]);
     return (
         <>
             <Container className="pt-5 mt-4 mb-5">
@@ -133,68 +144,80 @@ const Restaurant = () => {
                     </Row>
                 )}
                 <Row className="pt-5 gy-5">
+                    <div className="d-flex justify-content-end">
+                        <input
+                            type="text"
+                            placeholder="Cerca un piatto"
+                            className="cozy-input-form border-0 mb-0"
+                            onChange={handleSearchIngredients}
+                        />
+                    </div>
                     {dishes &&
-                        dishes.map((dish) => {
-                            return (
-                                <Col key={dish.idDish} xs={12} sm={6} lg={4} xl={3}>
-                                    <div className="card border-lightViolet overflow-hidden">
-                                        <div className="dishImageContainer">
-                                            <img
-                                                className="dish-image"
-                                                src={
-                                                    dish.image != "default.jpg"
-                                                        ? `https://localhost:7275/images/${dish.image}`
-                                                        : FotoCibo
-                                                }
-                                                alt={dish.name}
-                                            />
-                                        </div>
-                                        <div className="card-body d-flex flex-column justify-content-between">
-                                            <div className="border-bottom-dashed pb-5">
-                                                <h5 className="card-title fw-bold mb-2">{dish.name}</h5>
-                                                {dish.ingredients.map((ingredient) => (
-                                                    <span
-                                                        className="me-2 text-italic fs-6"
-                                                        key={ingredient.idIngredient}
-                                                    >
-                                                        {ingredient.name}
-                                                    </span>
-                                                ))}
+                        dishes
+                            .filter((dish) => dish.isAvailable)
+                            .map((dish) => {
+                                return (
+                                    <Col key={dish.idDish} xs={12} sm={6} lg={4} xl={3}>
+                                        <div className="card border-lightViolet overflow-hidden ">
+                                            <div className="dishImageContainer">
+                                                <img
+                                                    className="dish-image"
+                                                    src={
+                                                        dish.image != "default.jpg"
+                                                            ? `https://localhost:7275/images/${dish.image}`
+                                                            : FotoCibo
+                                                    }
+                                                    alt={dish.name}
+                                                />
                                             </div>
+                                            <div className="card-body d-flex flex-column justify-content-between">
+                                                <div className="border-bottom-dashed pb-4">
+                                                    <h5 className="card-title fw-bold mb-2">{dish.name}</h5>
+                                                    <div className="ingredientDishContainer">
+                                                        {dish.ingredients.map((ingredient) => (
+                                                            <span
+                                                                className="me-2 text-italic fs-6"
+                                                                key={ingredient.idIngredient}
+                                                            >
+                                                                {ingredient.name},
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
 
-                                            <div className="d-flex align-items-center justify-content-between">
-                                                <p className="card-text mb-0 d-flex align-items-center flex-grow-1 ">
-                                                    <img src={Euro} style={{ width: 14 }} />{" "}
-                                                    <span className="ms-1">{dish.price}</span>
-                                                </p>
-                                                <div className="d-flex justify-content-center">
-                                                    <input
-                                                        type="number"
-                                                        value={
-                                                            quantities[dish.idDish] === null
-                                                                ? ""
-                                                                : quantities[dish.idDish]
-                                                        }
-                                                        onChange={(e) => handleQuantityChange(e, dish.idDish)}
-                                                        className="form-control w-75"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <button
-                                                        onClick={() => handleAddToCart(dish)}
-                                                        className="btn-form btn-green"
-                                                    >
-                                                        Aggiungi
-                                                    </button>
+                                                <div className="d-flex align-items-center justify-content-between">
+                                                    <p className="card-text mb-0 d-flex align-items-center flex-grow-1 ">
+                                                        <img src={Euro} style={{ width: 14 }} />{" "}
+                                                        <span className="ms-1">{dish.price}</span>
+                                                    </p>
+                                                    <div className="d-flex justify-content-center">
+                                                        <input
+                                                            type="number"
+                                                            value={
+                                                                quantities[dish.idDish] === null
+                                                                    ? ""
+                                                                    : quantities[dish.idDish]
+                                                            }
+                                                            onChange={(e) => handleQuantityChange(e, dish.idDish)}
+                                                            className="form-control  cozy-number-input me-2 "
+                                                            min="1"
+                                                            max="10"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <button
+                                                            onClick={() => handleAddToCart(dish)}
+                                                            className="btn-form btn-green px-1"
+                                                        >
+                                                            Aggiungi
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Col>
-                            );
-                        })}
+                                    </Col>
+                                );
+                            })}
                 </Row>
             </Container>
         </>

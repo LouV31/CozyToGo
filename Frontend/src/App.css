@@ -292,6 +292,11 @@ body {
     border-color: #6159aa !important;
     box-shadow: 0 0 0 0.2rem rgba(97, 89, 170, 0.25) !important;
 }
+.cozy-number-input {
+    border-radius: 40px !important;
+    background-color: #6159aa21 !important;
+    max-width: 70px;
+}
 .btn-form {
     border: none !important;
     border-radius: 50px !important;
@@ -429,6 +434,59 @@ body {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     cursor: pointer;
+}
+.ingredientDishContainer {
+    max-height: 44px;
+    overflow-y: scroll;
+}
+.ingredientDishContainer::-webkit-scrollbar {
+    width: 10px !important; /* larghezza della scrollbar */
+    background-color: transparent !important; /* colore di sfondo */
+    color: #6159aa !important; /* colore della scrollbar */
+}
+
+.ingredientDishContainer::-webkit-scrollbar-thumb {
+    background-color: #6159aa !important; /* colore del pulsante della scrollbar */
+    border-radius: 10px !important; /* bordi arrotondati */
+}
+
+.ingredientDishContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #6159aa !important; /* colore del pulsante della scrollbar al passaggio del mouse */
+}
+.IngredientListToAddContainer {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+.IngredientListToAddContainer::-webkit-scrollbar {
+    width: 2px !important; /* larghezza della scrollbar */
+    background-color: transparent !important; /* colore di sfondo */
+    color: #6159aa !important; /* colore della scrollbar */
+}
+
+.IngredientListToAddContainer::-webkit-scrollbar-thumb {
+    background-color: #6159aa !important; /* colore del pulsante della scrollbar */
+    border-radius: 10px !important; /* bordi arrotondati */
+}
+
+.IngredientListToAddContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #6159aa !important; /* colore del pulsante della scrollbar al passaggio del mouse */
+}
+
+.myCheckbox input[type="checkbox"] {
+    border: 2px solid #6159aa; /* Adjust thickness as needed */
+}
+
+.myCheckbox input[type="checkbox"]:checked {
+    background-color: #8cc32f;
+}
+
+.myCheckbox input[type="checkbox"]:checked::after {
+    display: block;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 /* SELECTED CATEGORY RESTAURANT */

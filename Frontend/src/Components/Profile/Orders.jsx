@@ -134,7 +134,13 @@ const Orders = () => {
                                                           <Col className="border-bottom-dashed pb-4 d-flex justify-content-between align-items-center mb-4">
                                                               <img
                                                                   src={`https://localhost:7275/images/${orderDetail.dish.image}`}
-                                                                  style={{ width: 100, borderRadius: 20 }}
+                                                                  style={{
+                                                                      width: 100,
+                                                                      height: 56,
+                                                                      borderRadius: 20,
+                                                                      objectFit: "cover",
+                                                                      objectPosition: "center",
+                                                                  }}
                                                               />
                                                               <p className="mb-0">{orderDetail.dish.name}</p>
                                                               <p className="mb-0">x{orderDetail.dish.quantity}</p>

@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
     addAddressAction,
     editAddressAction,
@@ -36,8 +37,10 @@ export const editUser = (userDTO) => {
             });
             dispatch(editUserAction(userData));
             dispatch(getUser());
+            toast.success("Utente modificato con successo!");
         } catch (error) {
             console.log(error);
+            toast.error("Errore durante la modifica dell'utente!");
         }
     };
 };
@@ -70,8 +73,10 @@ export const AddAddress = (AddressName, CompleteAddress) => {
                 }),
             });
             dispatch(addAddressAction(addressData));
+            toast.success("Indirizzo aggiunto con successo!");
         } catch (error) {
             console.log(error);
+            toast.error("Errore durante l'aggiunta dell'indirizzo!");
         }
     };
 };
@@ -95,9 +100,11 @@ export const EditAddress = (IdAddress, AddressName, CompleteAddress) => {
             });
             dispatch(editAddressAction(addressData));
             dispatch(getAddresses());
+            toast.success("Indirizzo modificato con successo!");
             console.log(addressData);
         } catch (error) {
             console.log(error);
+            toast.error("Errore durante la modifica dell'indirizzo!");
         }
     };
 };
@@ -115,8 +122,10 @@ export const SetPrimaryAddress = (idAddress) => {
             console.log(settedData);
             dispatch(setPrimaryAddressAction(settedData));
             dispatch(getAddresses());
+            toast.success("Indirizzo principale impostato con successo!");
         } catch (error) {
             console.log(error);
+            toast.error("Errore durante l'impostazione dell'indirizzo principale!");
         }
     };
 };
@@ -170,9 +179,11 @@ export const setDeliveredOrder = (orderDetailId) => {
             });
 
             dispatch(setDeliveredOrderAction(responseData));
+            toast.success("Ordine consegnato con successo!");
             console.log(responseData);
         } catch (error) {
             console.log(error);
+            toast.error("Errore durante la consegna dell'ordine!");
         }
     };
 };

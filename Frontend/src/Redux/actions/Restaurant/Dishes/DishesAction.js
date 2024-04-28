@@ -145,3 +145,16 @@ export const searchDishes = (dishName) => {
         }
     };
 };
+
+export const searchDishesByRestaurant = (restaurantId, dishesName) => {
+    return async (dispatch) => {
+        try {
+            const responseData = await fetchWithAuth(
+                `https://localhost:7275/api/Dishes/searchDishes/${restaurantId}/${dishesName}`
+            );
+            dispatch(searchDishAction(responseData));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};

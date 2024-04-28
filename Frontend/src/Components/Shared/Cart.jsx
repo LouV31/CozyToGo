@@ -22,6 +22,7 @@ const Cart = ({ show }) => {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const selectedAddressRef = useRef();
     const [inProp, setInProp] = useState(false);
+
     useEffect(() => {
         setInProp(true);
         return () => {

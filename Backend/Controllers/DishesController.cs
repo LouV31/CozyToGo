@@ -341,6 +341,48 @@ namespace CozyToGo.Controllers
             }
             return Ok(dishes);
         }
+        [Authorize]
+        [HttpGet("searchDishes/{restaurantId}/{dishesName}")]
+        public async Task<IActionResult> SearchDishesInRestaurant(int? restaurantId, string dishesName)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            if (restaurantId == null || dishesName == null)
+            {
+                return BadRequest("Missing parameters");
+            }
+
+            var dishes = await _context.Dishes
+                .Where(d => d.Name.Contains(dishesName.ToLower()) && d.IdRestaurant == restaurantId)
+                .Include(d => d.DishIngredients)
+                .ThenInclude(di => di.Ingredient)
+                .Select(d => new DishDTO
+                {
+                    IdDish = d.IdDish,
+                    Name = d.Name,
+                    Description = d.Description,
+                    Image = d.Image,
+                    IsAvailable = d.IsAvailable,
+                    Price = d.Price,
+                    IdRestaurant = d.IdRestaurant,
+                    Ingredients = d.DishIngredients.Select(di => new IngredientsDTO
+                    {
+                        IdIngredient = di.IdIngredient,
+                        Name = di.Ingredient.Name,
+                        Price = di.Ingredient.Price
+                    }).ToArray()
+                })
+                .ToListAsync();
+            if (dishes == null)
+            {
+                return NotFound("No dishes found");
+            }
+            return Ok(dishes);
+
+        }
 
     }
 }
