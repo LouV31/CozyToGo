@@ -11,7 +11,6 @@ export const sendOrder = async (order) => {
             body: JSON.stringify(order),
         });
 
-        console.log(orderData);
         return orderData;
     } catch (error) {
         console.log(error);

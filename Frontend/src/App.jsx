@@ -23,7 +23,7 @@ function App() {
             </div>
             <ToasterComponent />
             <CozyNavbar toggleCart={toggleCart} />
-            {showCart && <Cart show={showCart} />}
+            <Cart show={showCart} />
 
             <Routes>
                 <Route path="/" element={<Home />} />

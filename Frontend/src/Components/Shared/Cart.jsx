@@ -5,7 +5,7 @@ import { clearCartAction, removeItemAction, updateQuantityAction } from "../../R
 import { getAddresses, getUser } from "../../Redux/actions/Profile/ProfileActions";
 import { sendOrder } from "../../Redux/actions/Cart/CartActions";
 import { loadStripe } from "@stripe/stripe-js";
-import { Displayport, Trash2Fill } from "react-bootstrap-icons";
+import { Displayport, Trash2Fill, WindowDash } from "react-bootstrap-icons";
 import { Row, Col, Container } from "react-bootstrap";
 import { set } from "react-hook-form";
 import { CSSTransition } from "react-transition-group";
@@ -103,7 +103,7 @@ const Cart = ({ show }) => {
                             <div className="d-flex justify-content-between align-items-center mb-3" key={item.idDish}>
                                 <div className="d-flex justify-content-between border-message-reverse bg-lightBlue  flex-grow-1">
                                     <div className="fw-semibold px-3 py-1">
-                                        <p className="mb-0 fs-7">
+                                        <p className="mb-0 fs-7 text-truncate" style={{ maxWidth: 170 }}>
                                             {item.quantity} x {item.name}
                                         </p>
                                     </div>

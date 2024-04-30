@@ -34,7 +34,6 @@ const Home = () => {
 
         return () => {
             clearTimeout(handler);
-            console.log("Clear done", search);
         };
     }, [search]);
 

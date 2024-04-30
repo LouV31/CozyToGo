@@ -83,6 +83,7 @@ const Restaurant = () => {
             dispatch(getRestaurantDishes(restaurantId));
         }
     }, [search]);
+
     return (
         <>
             <Container className="pt-5 mt-4 mb-5">

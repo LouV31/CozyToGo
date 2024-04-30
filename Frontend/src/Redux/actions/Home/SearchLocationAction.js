@@ -12,7 +12,6 @@ export const getLocation = (address) => {
                 type: GET_LOCATION,
                 payload: locationData,
             });
-            console.log(locationData);
         } catch (error) {
             console.log(error);
         }
@@ -31,7 +30,6 @@ export const getSuggestions = (address) => {
                 type: GET_SUGGESTIONS,
                 payload: suggestionsData,
             });
-            console.log(suggestionsData);
         } catch (error) {
             console.log(error);
         }

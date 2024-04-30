@@ -19,7 +19,7 @@ const cartSlice = createSlice({
                 } else {
                     // L'articolo non esiste nel carrello, quindi aggiungilo
                     state.items = [...state.items, { ...dish, quantity }];
-                    toast.success("Prodotto aggiunto al carrello");
+                    toast.success("Prodotto aggiunto al carrello", { position: "bottom-left" });
                 }
             }
         },

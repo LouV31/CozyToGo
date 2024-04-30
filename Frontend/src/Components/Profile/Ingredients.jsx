@@ -118,18 +118,20 @@ const Ingredients = () => {
                             <Col xs={12} key={ingredient.idIngredient}>
                                 <div className="px-3 d-flex justify-content-between border-bottom-dashed align-items-center py-4">
                                     <p className="mb-0 text-playfair text-italic fs-5">{ingredient.name}</p>
-                                    <p className="mb-0 text-playfair text-italic fs-5 fw-semibold">
-                                        {ingredient.price}{" "}
-                                        <span>
-                                            <img src={euroIcon} style={{ width: 16 }} />
-                                        </span>
-                                    </p>
+                                    <div className="d-flex align-items-center">
+                                        <p className="mb-0 text-playfair text-italic fs-5 fw-semibold me-2 me-md-4">
+                                            {ingredient.price}{" "}
+                                            <span>
+                                                <img src={euroIcon} style={{ width: 16 }} />
+                                            </span>
+                                        </p>
 
-                                    <PenFill
-                                        className="text-green"
-                                        size={24}
-                                        onClick={() => handleShowEditModal(ingredient)}
-                                    />
+                                        <PenFill
+                                            className=" text-green cursor-pointer"
+                                            size={20}
+                                            onClick={() => handleShowEditModal(ingredient)}
+                                        />
+                                    </div>
                                 </div>
                             </Col>
                         );

@@ -123,7 +123,7 @@ export const uploadDishImage = (idDish, image) => {
                 method: "PUT",
                 body: formData,
             });
-            console.log("Image Response:", imageResponse);
+
             dispatch(uploadDishImageAction(imageResponse));
             toast.success("Immagine caricata con successo!");
         } catch (error) {
@@ -138,7 +138,6 @@ export const searchDishes = (dishName) => {
         try {
             const responseData = await fetchWithAuth(`https://localhost:7275/api/Dishes/search/${dishName}`);
 
-            console.log(responseData);
             dispatch(searchDishAction(responseData));
         } catch (error) {
             console.log(error);

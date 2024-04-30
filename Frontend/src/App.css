@@ -598,8 +598,6 @@ input[type="range"]:focus::-moz-range-thumb {
     position: fixed;
     right: 0;
     bottom: 0;
-    /* top: 50%;
-    transform: translateY(-50%); */
     padding-left: 100px;
     padding-right: 20px;
     min-width: 350px;
@@ -608,8 +606,8 @@ input[type="range"]:focus::-moz-range-thumb {
     box-shadow: #ceb7ed 0px 0px 10px;
     border-top-left-radius: 300px;
     border-bottom-left-radius: 300px;
-    transform: translateX(100%);
-
+    transform: translateX(110%);
+    transition: transform 500ms ease-in-out;
     z-index: 1000;
 }
 .cart-container::-webkit-scrollbar {
@@ -628,11 +626,11 @@ input[type="range"]:focus::-moz-range-thumb {
 }
 .cart-container.show {
     transform: translateX(0%);
-    transition: transform 500ms;
 }
 
 .orders-container {
-    max-height: 230px;
+    max-height: 130px;
+
     overflow-y: scroll;
 }
 .select-address {

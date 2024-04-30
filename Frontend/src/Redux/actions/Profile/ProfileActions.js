@@ -18,7 +18,6 @@ export const getUser = () => {
         try {
             const userData = await fetchWithAuth("https://localhost:7275/api/Users");
             dispatch(getUserAction(userData));
-            console.log("User data: ", userData);
         } catch (error) {
             console.log(error);
         }
@@ -101,7 +100,6 @@ export const EditAddress = (IdAddress, AddressName, CompleteAddress) => {
             dispatch(editAddressAction(addressData));
             dispatch(getAddresses());
             toast.success("Indirizzo modificato con successo!");
-            console.log(addressData);
         } catch (error) {
             console.log(error);
             toast.error("Errore durante la modifica dell'indirizzo!");
@@ -119,7 +117,6 @@ export const SetPrimaryAddress = (idAddress) => {
                 method: "PUT",
             });
 
-            console.log(settedData);
             dispatch(setPrimaryAddressAction(settedData));
             dispatch(getAddresses());
             toast.success("Indirizzo principale impostato con successo!");
@@ -134,7 +131,7 @@ export const GetOrders = () => {
     return async (dispatch) => {
         try {
             const ordersData = await fetchWithAuth("https://localhost:7275/api/Orders");
-            console.log(ordersData);
+
             dispatch(getOrdersAction(ordersData));
         } catch (error) {
             console.log(error);
@@ -147,7 +144,7 @@ export const getRestaurantOrders = () => {
         try {
             const response = fetchWithAuth(`https://localhost:7275/api/Orders/restaurantOrders`);
             const data = await response;
-            console.log(data);
+
             dispatch(getOrdersAction(data));
         } catch (error) {
             console.log(error);
@@ -160,7 +157,6 @@ export const getRestaurantOrdersByEmail = (userEmail) => {
         try {
             const responseData = await fetchWithAuth(`https://localhost:7275/api/Orders/search/${userEmail}`);
             dispatch(searchOrderByEmailAction(responseData));
-            console.log("searched orders: ", responseData);
         } catch (error) {
             console.log(error);
         }
@@ -180,7 +176,6 @@ export const setDeliveredOrder = (orderDetailId) => {
 
             dispatch(setDeliveredOrderAction(responseData));
             toast.success("Ordine consegnato con successo!");
-            console.log(responseData);
         } catch (error) {
             console.log(error);
             toast.error("Errore durante la consegna dell'ordine!");
@@ -193,7 +188,6 @@ export const getSales = () => {
         try {
             const responseData = await fetchWithAuth(`https://localhost:7275/api/Orders/sales`);
             dispatch(getSalesAction(responseData));
-            console.log("My Sales: ", responseData);
         } catch (error) {
             console.log(error);
         }
@@ -205,7 +199,6 @@ export const getSalesByDate = (orderDate) => {
         try {
             const responseData = await fetchWithAuth(`https://localhost:7275/api/Orders/sales/${orderDate}`);
             dispatch(getSalesAction(responseData));
-            console.log("My Sales by Date: ", responseData);
         } catch (error) {
             console.log(error);
         }

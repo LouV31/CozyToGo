@@ -12,7 +12,6 @@ export const getIngredients = (idRestaurant) => {
         try {
             const responseData = await fetchWithAuth(`https://localhost:7275/api/Ingredients/${idRestaurant}`);
             dispatch(getIngredientsAction(responseData));
-            console.log(responseData);
         } catch (error) {
             console.log(error);
         }
@@ -29,7 +28,7 @@ export const addIngredient = (newIngredient) => {
                 },
                 body: JSON.stringify(newIngredient),
             });
-            console.log(responseData);
+
             toast.success("Ingrediente aggiunto con successo!");
             dispatch(addIngredientAction(responseData));
         } catch (error) {
@@ -49,7 +48,7 @@ export const editIngredient = (idIngredient, Name, Price) => {
                 },
                 body: JSON.stringify({ Name, Price }),
             });
-            console.log("Response data:", responseData);
+
             toast.success("Ingrediente modificato con successo!");
             dispatch(editIngredientAction(responseData));
         } catch (error) {
@@ -64,7 +63,6 @@ export const searchIngredient = (ingredientName) => {
         try {
             const responseData = await fetchWithAuth(`https://localhost:7275/api/Ingredients/search/${ingredientName}`);
             dispatch(searchIngredientAction(responseData));
-            console.log(responseData);
         } catch (error) {
             console.log(error);
         }

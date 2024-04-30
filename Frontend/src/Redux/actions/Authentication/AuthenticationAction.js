@@ -27,7 +27,7 @@ export const registerUser = (name, surname, email, password, city, address, zipC
                 toast.success("Registrazione effettuata con successo");
 
                 const registerData = await response.json();
-                console.log(registerData);
+
                 dispatch({
                     type: REGISTER_USER,
                     payload: registerData.user,
@@ -57,7 +57,7 @@ export const loginUser = (Email, Password, navigate) => {
             });
             if (response.ok) {
                 const loginData = await response.json();
-                console.log(loginData);
+
                 dispatch({
                     type: LOGIN_USER,
                     payload: loginData,

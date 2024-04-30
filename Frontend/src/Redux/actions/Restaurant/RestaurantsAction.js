@@ -16,7 +16,7 @@ export const getRestaurant = () => {
             const restaurantResponse = await fetch("https://localhost:7275/api/Restaurants");
             if (restaurantResponse.ok) {
                 const restaurantData = await restaurantResponse.json();
-                console.log(restaurantData);
+
                 dispatch(getRestaurantsAction(restaurantData));
             } else {
                 throw new Error("Error fetching data from server!");
@@ -33,7 +33,7 @@ export const getSingleRestaurant = (idRestaurant) => {
             const restaurantResponse = await fetch(`https://localhost:7275/api/Restaurants/${idRestaurant}`);
             if (restaurantResponse.ok) {
                 const restaurantData = await restaurantResponse.json();
-                console.log(restaurantData);
+
                 dispatch(getSingleRestaurantAction(restaurantData));
             } else {
                 throw new Error("Error fetching data from server!");
@@ -49,7 +49,6 @@ export const getRestaurantByOwner = () => {
         try {
             const restaurantData = await fetchWithAuth(`https://localhost:7275/api/Restaurants/ownerRestaurant`);
             dispatch(getSingleRestaurantAction(restaurantData));
-            console.log(restaurantData);
         } catch (error) {
             console.log(error);
         }
@@ -64,7 +63,7 @@ export const searchRestaurant = (restaurantName) => {
                 throw new Error("Error fetching data from server!");
             }
             const data = await response.json();
-            console.log(data);
+
             dispatch(searchRestaurantAction(data));
         } catch (error) {
             console.log(error);
@@ -136,7 +135,7 @@ export const addRestaurantAndOwner = (
             });
 
             const data = await resp;
-            console.log("Response data:", data);
+
             const formData = new FormData();
             formData.append("file", image);
             const imageResponse = await fetchWithAuth(
@@ -189,7 +188,7 @@ export const editRestaurant = (
                     Email,
                 }),
             });
-            console.log("Response data:", responseData);
+
             dispatch(editRestaurantAction(responseData));
 
             toast.success("Ristorante modificato con successo!");

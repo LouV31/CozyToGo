@@ -8,7 +8,7 @@ export const getCategories = () => {
                 throw new Error("Error fetching data from server!");
             }
             const data = await response.json();
-            console.log(data);
+
             dispatch(getCategoriesAction(data));
         } catch (error) {
             console.log(error);
